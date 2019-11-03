@@ -1,6 +1,6 @@
 cd ~
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh # get the shell program  for miniconda from the web
+bash Miniconda3-latest-Linux-x86_64.sh # includes the shell script in the bash file
 source ~/.bashrc
 conda config --add channels defaults
 conda config --add channels bioconda
@@ -9,15 +9,15 @@ conda install fastqc
 cd ~
 mkdir software
 cd software
-wget https://raw.githubusercontent.com/circulosmeos/gdown.pl/master/gdown.pl
-chmod +x gdown.pl
-nano ~/.bashrc
-export PATH="~/software/:$PATH"
-source ~/.bashrc
-conda install cutadapt
+wget https://raw.githubusercontent.com/circulosmeos/gdown.pl/master/gdown.pl # get the gdown program from the web
+chmod +x gdown.pl # change permission allowing use of the gdown program in python
+nano ~/.bashrc # opne the bashrc file to make changes
+export PATH="~/software/:$PATH" # this adds a command in the bashrc to look in the software folder for the program(s) required
+source ~/.bashrc # this is like restarting...after this the changes in the bashrc will be ready for execution
+conda install cutadapt 
 conda install bowtie2
 conda create --name py2 python=2.7
-conda activate py2
+conda activate py2 
 conda install hisat2
 conda deactivate
   echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
@@ -26,47 +26,47 @@ conda deactivate
   cd in_class_assignments
   mkdir N4
  cd N4
-gdown.pl https://drive.google.com/open?id=1Lko5_J4w9KErwGn2LbgVaRAMptTfAMzI/edit N4_R1.fastq.gz
+gdown.pl https://drive.google.com/open?id=1Lko5_J4w9KErwGn2LbgVaRAMptTfAMzI/edit N4_R1.fastq.gz # download the reads from the google drive
 gdown.pl https://drive.google.com/open?id=1F3DDYRKbTgQIp2yW4k3lhE0hcEnN-xCn/edit N4_R2.fastq.gz
-fastqc N4_R1.fastq.gz
+fastqc N4_R1.fastq.gz # runs fastqc...note that it can handle both gz and non-gz files
 fastqc N4_R2.fastq.gz
-cutadapt -q 20,20 -a CTGTCTCTTATACACATCTCCGAGCCCACGAGAC -A CTGTCTCTTATACACATCTGACGCTGCCGACGA -m 50 --max-n 0 -o N4_R1.cutadapt.fastq -p N4_R2.cutadapt.fastq N4_R1.fastq.gz N4_R2.fastq.gz
+cutadapt -q 20,20 -a CTGTCTCTTATACACATCTCCGAGCCCACGAGAC -A CTGTCTCTTATACACATCTGACGCTGCCGACGA -m 50 --max-n 0 -o N4_R1.cutadapt.fastq -p N4_R2.cutadapt.fastq N4_R1.fastq.gz N4_R2.fastq.gz # runs cuptadapt with the said adapter sequences with phred score more than 20, the lenght should be atleast 50 basesand no mismathces are allowed
 fastqc N4_R1.cutadapt.fastq
 fastqc N4_R2.cutadapt.fastq
-java -jar ~/Trimmomatic-0.36/trimmomatic-0.36.jar \
-PE -phred33 \
-N4_R1.cutadapt.fastq \
-N4_R2.cutadapt.fastq \
-N4_R1_paired.fq.gz \
-N4_R1_unpaired.fq.gz \
-N4_R2_paired.fq.gz \
-N4_R2_unpaired.fq.gz \
-ILLUMINACLIP:../Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 \
-LEADING:3 \
-TRAILING:3 \
-SLIDINGWINDOW:4:15 \
-MINLEN:36
-gunzip N4_R1_paired.fq.gz > N4_R1_paired.fq
+java -jar ~/Trimmomatic-0.36/trimmomatic-0.36.jar \ #from 36-48 is a set of options to run trimmomatic
+PE -phred33 \  # two versions for trimmomatic phred33 and phred64, our phred scores fall in the 33 range
+N4_R1.cutadapt.fastq \  # input files from the output of cutadapt
+N4_R2.cutadapt.fastq \  # input files from the output of cutadapt
+N4_R1_paired.fq.gz \    # output files after trimmomatic
+N4_R1_unpaired.fq.gz \    # output files after trimmomatic
+N4_R2_paired.fq.gz \   # output files after trimmomatic
+N4_R2_unpaired.fq.gz \     # output files after trimmomatic
+ILLUMINACLIP:../Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 \  
+LEADING:3 \  # removes bases from the leading sequences if the phred score is less than 3
+TRAILING:3 \ # removes bases from the trailing sequences if the phred score is less than 3
+SLIDINGWINDOW:4:15 \ # the average phred score of four consecutive bases should be atleast 15
+MINLEN:36 # the minimum length of the sequence should be atleast 36
+gunzip N4_R1_paired.fq.gz > N4_R1_paired.fq #gunzip the gz files...turns out this is not required...fastqc works with gunzipped and ungunzipped files
 gunzip N4_R2_paired.fq.gz > N4_R2_paired.fq
+fastqc N4_R1.paired.fq # running fastqc after trimmomatic
 fastqc N4_R1.paired.fq
-fastqc N4_R1.paired.fq
-qconda activate de_novo
-spades.py -k 21,51,71,91,111,127 --careful --pe1-1 N4_R1_paired.fq.gz --pe1-2 N4_R2_paired.fq.gz -o N4_trimmomatic_spades_output
+qconda activate de_novo # activate the de_novo environment
+spades.py -k 21,51,71,91,111,127 --careful --pe1-1 N4_R1_paired.fq.gz --pe1-2 N4_R2_paired.fq.gz -o N4_trimmomatic_spades_output # running spades: no mismatches, different sized kmers and output in -o
 cd N4_trimmomatic_spades_output
-quast contigs_trimmomatic.fasta -o Quast_contigs 
-quast -f contigs_trimmomatic.fasta -o Quast_contigs_genes
+quast contigs_trimmomatic.fasta -o Quast_contigs # running the quast for assesseing the quality of assembly
+quast -f contigs_trimmomatic.fasta -o Quast_contigs_genes # the -f flag is supposed to look for genes...didnt work for me
 cd ~/scratch/in_class_assignments
 mkdir prokka_annotation_N4trim
 cd prokka_annotation_N4trim
-awk '/^>/{print ">N4_" ++i; next}{print}' < contigs_trimmomatic.fasta > contigs_trimmomatic_names.fasta
-prokka --outdir N4 --prefix N4trim contigs_trimmomatic_names.fasta
-grep -c ">" N4trim.faa
-grep -c ">" N4trimnonhypothetical.faa # answer is 9712
-grep "COG" N4trim.tsv|cut -f6|sort -n|uniq -c > totaluniqcogs.txt
-wc -l totaluniqcogs.txt  # 1565
+awk '/^>/{print ">N4_" ++i; next}{print}' < contigs_trimmomatic.fasta > contigs_trimmomatic_names.fasta # tagging the sequence names with "N4"
+prokka --outdir N4trim --prefix N4trim contigs_trimmomatic_names.fasta # running prokka and creating a directory N4trim that has all the output files with prefix N4trim
+grep -c ">" N4trim.faa # check the total number of sequences ...the answer is 18882
+grep "COG" N4trim.tsv|cut -f6|sort -n|uniq -c > totaluniqcogs.txt 
+wc -l totaluniqcogs.txt  # the total number of unique COGS is 1565
 grep "COG" N4.tsv|cut -f6| sort -n|uniq -c|sort -n # sorts the COGs with frequency of entry
 grep -A1 'hypothetical' N4trim.faa > N4trimhypothetical.faa
 grep -v 'hypothetical' N4trim.faa > N4trimnonhypothetical.faa
-efetch -db=sequences -id=NC_006512.1 -format=fasta_cds_aa>Idioloi.faa
-makeblastdb -in Idioloi.faa -dbtype prot -title Idioloi_protein
-blastp -db Idioloi.faa -query N4trim.faa -out Idioloi_N4trim.txt -outfmt 7
+grep -c ">" N4trimnonhypothetical.faa # answer is 9712..this will be the input for the BLASTKOALA
+efetch -db=sequences -id=NC_006512.1 -format=fasta_cds_aa>Idioloi.faa # downloaded the protein sequences of the previously published idiomarina loihiensis
+makeblastdb -in Idioloi.faa -dbtype prot -title Idioloi_protein # indexed the downloaded sequences to make it BLAST-friendly
+blastp -db Idioloi.faa -query N4trim.faa -out Idioloi_N4trim.txt -outfmt 7 # protein blast to compare the new organism with the old
