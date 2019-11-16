@@ -24,3 +24,5 @@ conda deactivate
   pip install --user biopython
 #downloaded augustus and trasnferred through WINSCP in TOPICOFCHOICE 
 tar -xvf augustus.2.5.5.tar.gz
+nano ~/.bashrc
+ export AUGUSTUS_CONFIG_PATH=/my_path_to_AUGUSTUS/augustus/config/
