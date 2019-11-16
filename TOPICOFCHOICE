@@ -1,0 +1,26 @@
+cd ~
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh # get the shell program  for miniconda from the web
+bash Miniconda3-latest-Linux-x86_64.sh # includes the shell script in the bash file
+source ~/.bashrc
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install fastqc
+cd ~
+mkdir software
+cd software
+wget https://raw.githubusercontent.com/circulosmeos/gdown.pl/master/gdown.pl # get the gdown program from the web
+chmod +x gdown.pl # change permission allowing use of the gdown program in python
+nano ~/.bashrc # opne the bashrc file to make changes
+export PATH="~/software/:$PATH" # this adds a command in the bashrc to look in the software folder for the program(s) required
+source ~/.bashrc # this is like restarting...after this the changes in the bashrc will be ready for execution
+conda install cutadapt 
+conda install bowtie2
+conda create --name py2 python=2.7
+conda activate py2 
+conda install hisat2
+conda deactivate
+  echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
+  pip install --user biopython
+#downloaded augustus and trasnferred through WINSCP in TOPICOFCHOICE 
+tar -xvf augustus.2.5.5.tar.gz
