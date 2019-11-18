@@ -22,7 +22,15 @@ conda install hisat2
 conda deactivate
   echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
   pip install --user biopython
-#downloaded augustus and trasnferred through WINSCP in TOPICOFCHOICE 
+#downloaded augustus and trasnferred through WINSCP in software
 tar -xvf augustus.2.5.5.tar.gz
+cd software
+cd augustus-3.2.1
+cd src
+make # this compiles the programs and make the commands executable
 nano ~/.bashrc
- export AUGUSTUS_CONFIG_PATH=/my_path_to_AUGUSTUS/augustus/config/
+export AUGUSTUS_CONFIG_PATH="home/pkokate/software/augusts-3.2.1/config i dont think this did anything
+PATH=$PATH:~/software/augustus-3.2.1/bin:~/augustus-3.2.1/scripts
+source ~/.bashrc # THIS IS A VERY IMPORTANT COMMAND.YOU MAY HAVE THE BEST/LATEST SOFTWARE, BUT IF UNIX DOESNT KNOW WHERE TO LOOK FOR THE SOFTWARE..IT IS AS BAD AS NOT THERE!!!
+augustus --species=fly GutG.final.scaffolds.fasta > Guttifera.gff
+augustus --species=fly Drosophila_palustris/pal.asm.contigs.fasta > Palustris.gff
