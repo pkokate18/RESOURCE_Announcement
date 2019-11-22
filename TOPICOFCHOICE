@@ -29,8 +29,46 @@ cd augustus-3.2.1
 cd src
 make # this compiles the programs and make the commands executable
 nano ~/.bashrc
-export AUGUSTUS_CONFIG_PATH="home/pkokate/software/augusts-3.2.1/config i dont think this did anything
-PATH=$PATH:~/software/augustus-3.2.1/bin:~/augustus-3.2.1/scripts
+export AUGUSTUS_CONFIG_PATH="home/pkokate/software/augusts-3.2.1/config/" # setting the augustus config path
+PATH=$PATH:~/software/augustus-3.2.1/bin:~/augustus-3.2.1/scripts # telling the bashrc where the augustus software will be
 source ~/.bashrc # THIS IS A VERY IMPORTANT COMMAND.YOU MAY HAVE THE BEST/LATEST SOFTWARE, BUT IF UNIX DOESNT KNOW WHERE TO LOOK FOR THE SOFTWARE..IT IS AS BAD AS NOT THERE!!!
 augustus --species=fly GutG.final.scaffolds.fasta > Guttifera.gff
 augustus --species=fly Drosophila_palustris/pal.asm.contigs.fasta > Palustris.gff
+wget https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.0.tar.gz
+tar -zxvf bedtools-2.28.0.tar.gz
+cd bedtools2
+make
+bedtools getfasta -fi GutG.final.scaffolds.fasta -bed Guttifera.gff bed -name -fo guttifera.fa.out
+
+
+
+
+ncbi-blast-2.9.0+-1.x86_64
+fastme-2.1.5
+dlcpar-1.1/bin
+
+
+
+
+
+
+
+conda create -c bioconda -n orthofinder  python=2.7 orthofinder
+conda activate orthofinder
+conda deactivate
+
+
+
+
+ tar -xvzf VESPA-1.0.1.tar.gz
+chmod +x vespa.py
+mv software/VESPA-1.0.1 miniconda3/VESPA-1.0.1
+conda env create -f vespa_co
+conda install -c bioconda raxml
+conda install -c bioconda paml
+conda install -c bioconda pal2nal
+conda install -c genomedk guidance
+conda install -c biobuilds clustalomega
+conda install -c bioconda prank
+conda install -c bioconda perl-bioperl
+
