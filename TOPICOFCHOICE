@@ -39,28 +39,13 @@ tar -zxvf bedtools-2.28.0.tar.gz
 cd bedtools2
 make
 bedtools getfasta -fi GutG.final.scaffolds.fasta -bed Guttifera.gff bed -name -fo guttifera.fa.out
-
-
-
-
 ncbi-blast-2.9.0+-1.x86_64
 fastme-2.1.5
 dlcpar-1.1/bin
-
-
-
-
-
-
-
 conda create -c bioconda -n orthofinder  python=2.7 orthofinder
 conda activate orthofinder
 conda deactivate
-
-
-
-
- tar -xvzf VESPA-1.0.1.tar.gz
+tar -xvzf VESPA-1.0.1.tar.gz
 chmod +x vespa.py
 mv software/VESPA-1.0.1 miniconda3/VESPA-1.0.1
 conda env create -f vespa_co
@@ -71,4 +56,19 @@ conda install -c genomedk guidance
 conda install -c biobuilds clustalomega
 conda install -c bioconda prank
 conda install -c bioconda perl-bioperl
+conda install -c bioconda blast
+python3 -m pip install git+https://github.com/jeetsukumaran/DendroPy.git
+python vespa.py clean -input=gut # give the folder name...it looks for the file.
+cd miniconda3
+cd VESPA-1.0.1
+mkdir GENOMES
+mv gut/GutG.final.scaffolds.fasta GENOMES
+mv pal/pal.asm.contigs.fasta GENOMES
+mv subpal/subpal.asm.contigs.fasta GENOMES
+downloaded mauritiana sechellia simulans and yakuba
+put them in FRESHGENOMES
+cd VESPA-1.0.1
+python vespa.py clean -input=FRESHGENOMES -label_filename=True -rm_internal_stop=True
+
+
 
