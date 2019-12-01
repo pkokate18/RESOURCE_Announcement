@@ -71,8 +71,18 @@ downloaded mauritiana sechellia simulans and yakuba
 put them in FRESHGENOMES
 cd VESPA-1.0.1
 python vespa.py clean -input=FRESHGENOMES -label_filename=True -rm_internal_stop=True
+clean
+translate
+orthofinder
 awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < input.fa > output.fa
 mv VESPA.../CodemlWrapper/ lib/perl5/site_perl/5.22.0/
 
 
+ awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAKO01.1.fsa_nt >sechinoneline.fasta# making sech fasta in oneliner..otherwise looking for thesequence only gets u the first 60 nucleotides
+ awk
+ awk
+ put the orthologues into individual files
+ 
+ makeblastdb -in Loki_protein.faa -dbtype prot -title Loki_protein
+ 
 
