@@ -85,4 +85,6 @@ mv VESPA.../CodemlWrapper/ lib/perl5/site_perl/5.22.0/
  
  makeblastdb -in Loki_protein.faa -dbtype prot -title Loki_protein
  
-
+mkdir combinedsech
+copy your genes there
+cat *.* >sechllia4genes
