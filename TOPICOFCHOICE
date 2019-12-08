@@ -1,13 +1,13 @@
-cd ~
+cd ~ # go to the home directory
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh # get the shell program  for miniconda from the web
 bash Miniconda3-latest-Linux-x86_64.sh # includes the shell script in the bash file
-source ~/.bashrc
-conda config --add channels defaults
+source ~/.bashrc # resets the bash file
+conda config --add channels defaults # adding channels...these three are to make sure that conda-forge/bioconda are connected to conda
 conda config --add channels bioconda
 conda config --add channels conda-forge
 conda install fastqc
 cd ~
-mkdir software
+mkdir software 
 cd software
 wget https://raw.githubusercontent.com/circulosmeos/gdown.pl/master/gdown.pl # get the gdown program from the web
 chmod +x gdown.pl # change permission allowing use of the gdown program in python
@@ -34,23 +34,22 @@ PATH=$PATH:~/software/augustus-3.2.1/bin:~/augustus-3.2.1/scripts # telling the 
 source ~/.bashrc # THIS IS A VERY IMPORTANT COMMAND.YOU MAY HAVE THE BEST/LATEST SOFTWARE, BUT IF UNIX DOESNT KNOW WHERE TO LOOK FOR THE SOFTWARE..IT IS AS BAD AS NOT THERE!!!
 augustus --species=fly GutG.final.scaffolds.fasta > Guttifera.gff
 augustus --species=fly Drosophila_palustris/pal.asm.contigs.fasta > Palustris.gff
-wget https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.0.tar.gz
-
-awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAEdfaf > yakubaformated.txt # get sequences in single line
-tar -zxvf bedtools-2.28.0.tar.gz
-cd bedtools2
-make
+wget https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.0.tar.gz # get bedtools from the web
+tar -zxvf bedtools-2.28.0.tar.gz # unzip
+cd bedtools2  
+make # this makes the bedtools programs executable
 bedtools getfasta -fi GutG.final.scaffolds.fasta -bed Guttifera.gff bed -name -fo guttifera.fa.out
-ncbi-blast-2.9.0+-1.x86_64
+ncbi-blast-2.9.0+-1.x86_64 
 fastme-2.1.5
 dlcpar-1.1/bin
-conda create -c bioconda -n orthofinder  python=2.7 orthofinder
+conda create -c bioconda -n orthofinder  python=2.7 orthofinder # VESPA needs python 2.7, by creating a conda env with python 2.7, we are making VESPA functional
+# if VESPA needs 2.7 and I am running 3.0, it gives a syntax error.  SYNTAX ERRORS are not actual errors, they are version change bugs.
 conda activate orthofinder
 conda deactivate
 tar -xvzf VESPA-1.0.1.tar.gz
 chmod +x vespa.py
-mv software/VESPA-1.0.1 miniconda3/VESPA-1.0.1
-conda env create -f vespa_co
+mv software/VESPA-1.0.1 miniconda3/VESPA-1.0.1 # I tried VESPA with files in one folder and the software in the other...didnt work..transferring VESPA to miniconda...where my 
+conda env create -f orthofinder
 conda install -c bioconda raxml
 conda install -c bioconda paml
 conda install -c bioconda pal2nal
@@ -75,7 +74,7 @@ clean
 translate
 orthofinder
 
-
+awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAEdfaf > yakubaformated.txt # get sequences in single line
  awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAKO01.1.fsa_nt >sechinoneline.fasta# making sech fasta in oneliner..otherwise looking for thesequence only gets u the first 60 nucleotides
  awk
  awk
