@@ -36,7 +36,7 @@ augustus --species=fly GutG.final.scaffolds.fasta > Guttifera.gff
 augustus --species=fly Drosophila_palustris/pal.asm.contigs.fasta > Palustris.gff
 wget https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.0.tar.gz
 
-awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAEdfaf > yakubaformated.txt
+awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAEdfaf > yakubaformated.txt # get sequences in single line
 tar -zxvf bedtools-2.28.0.tar.gz
 cd bedtools2
 make
@@ -74,8 +74,6 @@ python vespa.py clean -input=FRESHGENOMES -label_filename=True -rm_internal_stop
 clean
 translate
 orthofinder
-awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < input.fa > output.fa
-mv VESPA.../CodemlWrapper/ lib/perl5/site_perl/5.22.0/
 
 
  awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAKO01.1.fsa_nt >sechinoneline.fasta# making sech fasta in oneliner..otherwise looking for thesequence only gets u the first 60 nucleotides
