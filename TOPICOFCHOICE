@@ -69,19 +69,19 @@ mv subpal/subpal.asm.contigs.fasta GENOMES
 downloaded mauritiana sechellia simulans and yakuba
 put them in FRESHGENOMES
 cd VESPA-1.0.1
-python vespa.py clean -input=FRESHGENOMES -label_filename=True -rm_internal_stop=True
-clean
-translate
-orthofinder
+python vespa.py clean -input=FRESHGENOMES -label_filename=True -rm_internal_stop=True # outcome folder is CLeaned_FRESHGENOMES
+python vespa.py translate -input=Cleaned_FRESHGENOMES -cleave_terminal=False # translate the nucletodies to peptide sequence output folder is Translated_FRESHGENOMES
 
-awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAEdfaf > yakubaformated.txt # get sequences in single line
- awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAKO01.1.fsa_nt >sechinoneline.fasta# making sech fasta in oneliner..otherwise looking for thesequence only gets u the first 60 nucleotides
- awk
- awk
- put the orthologues into individual files
+orthofinder -f translated_FRESHGENOMES
+The results file has statistics and orthologous genes info..used it to sort and select four genes from sechellia and four from simulans and saved them as individual genes
+grep -A1 'JPYS01000850.1' Drosophila_simulans.faa > simulans_850.1 # did the same for the other seven genes
+mkdir combinedsimulans 
+cp simulans_850.1 combinedsimulans # did the same for the other three genes of simulans
+cd combinedsimulans
+cat *.* >sechllia4genes # this combines all the files in this folder into one big file
+# did the same for sechellia
+
+
+awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < AAEdfaf > yakubaformated.txt # get sequences in single line...i didnt use this file because it was a VESPA situation and it got rectified with teh translated_FRESHGENOMES using ORTHOFINDER instead.
  
- makeblastdb -in Loki_protein.faa -dbtype prot -title Loki_protein
- 
-mkdir combinedsech
-copy your genes there
-cat *.* >sechllia4genes
+The R code
