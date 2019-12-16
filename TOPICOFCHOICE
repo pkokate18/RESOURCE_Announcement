@@ -38,7 +38,7 @@ wget https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.
 tar -zxvf bedtools-2.28.0.tar.gz # unzip
 cd bedtools2  
 make # this makes the bedtools programs executable
-bedtools getfasta -fi GutG.final.scaffolds.fasta -bed Guttifera.gff bed -name -fo guttifera.fa.out
+bedtools getfasta -fi GutG.final.scaffolds.fasta -bed Guttifera.gff -fo guttifera.fa.out
 ncbi-blast-2.9.0+-1.x86_64 
 fastme-2.1.5
 dlcpar-1.1/bin
